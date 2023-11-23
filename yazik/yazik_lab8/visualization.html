@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Visualization</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <script type="text/javascript" src="graph_data.js"></script>
+  <style type="text/css">
+    #graphContainer {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="graphContainer"></div>
+
+  <script type="text/javascript">
+    // Create an array of nodes and edges to be visualized
+
+
+    // Create the data object
+    var data = {
+      nodes: nodes,
+      edges: edges,
+    };
+
+    // Set the container and options for the graph
+    var container = document.getElementById("graphContainer");
+    var options = {
+      nodes: {
+        shape: "dot",
+        size: 30,
+        font: {
+          size: 14,
+        },
+      },
+      edges: {
+        font: {
+          size: 12,
+        },
+        arrows: {
+          to: {
+            enabled: true,
+          },
+        },
+      },
+    };
+
+    // Create the network
+    var network = new vis.Network(container, data, options);
+  </script>
+</body>
+</html>

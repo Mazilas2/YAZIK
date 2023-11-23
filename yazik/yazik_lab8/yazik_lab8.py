@@ -1,3 +1,4 @@
+import json
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -103,3 +104,18 @@ while True:
             print(f"{neighbor} по отношению '{edge_label}'")
     else:
         print(f"Объект {search_term} не найден в графе.")
+    
+nodes_data = []
+for node in G.nodes:
+    nodes_data.append({"id": node, "label": node})
+
+edges_data = []
+for edge in G.edges:
+    source, target = edge
+    label = G.get_edge_data(source, target)["label"]
+    edges_data.append({"from": source, "to": target, "label": label})
+
+# Write the node and edge data to a JavaScript file
+with open("graph_data.js", "w") as f:
+    f.write("var nodes = " + json.dumps(nodes_data) + ";\n")
+    f.write("var edges = " + json.dumps(edges_data) + ";\n")
