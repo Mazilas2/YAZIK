@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 import spacy
 import networkx as nx
 
+#import spacy.cli
+
+#spacy.cli.download("en_core_web_sm")
+
 # 1. Загрузите данные train.txt, test.txt, val.txt
-with open('./data/drake_lyrics.txt', 'r', encoding='utf-8') as f:
+with open('/workspaces/codespaces-blank/yazik/yazik_lab8/data/drake_lyrics.txt', 'r', encoding='utf-8') as f:
     train = f.readlines()
 
 # Переведите данные в формат pandas DataFrame
@@ -33,15 +37,9 @@ for sentence in all_sentences:
     doc = nlp(sentence)
     parsed_sentences.append(doc)
 
-for i in range(2):
-    print(f"Пример синтаксического разбора для предложения {i + 1}:")
-    for token in parsed_sentences[i]:
-        print(f"{token.text:<12} {token.pos_:<10} {token.dep_:<10} {token.head.text}")
-    print()
-
 ner_results = []
 
-for sentence in parsed_sentences[:10]: 
+for sentence in parsed_sentences[:]: 
     doc = nlp(sentence)
     ner_results.append(doc.ents)
 
@@ -50,8 +48,17 @@ for i, entities in enumerate(ner_results):
         continue
     print(f"Именованные сущности в предложении {i + 1}:")
     for entity in entities:
-        print(f"{entity.text:<20} {entity.label_:<15}")
+        #entity_id = f"ENTITY_{i}_{entity.text.replace(' ', '_')}"
+        entity_id = f"ENTITY_{i}_{entity.start}_{entity.end}"
+        all_sentences[i] = all_sentences[i].replace(entity.text, entity_id)
+        print(f"{entity_id:<20} {entity.label_:<10} {entity.text}")
     print()
+
+parsed_sentences = []
+
+for sentence in all_sentences:
+    doc = nlp(sentence)
+    parsed_sentences.append(doc)
 
 G = nx.DiGraph()
 
